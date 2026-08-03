@@ -1,73 +1,53 @@
-# Welcome to your Lovable project
+# Colégio Nós — Landing Page de Matrículas 2027
 
-## Project info
+Landing page estática de captação de leads, publicada via **GitHub Pages** em
+<https://matriculas.colegionois.com>.
 
-**URL**: https://lovable.dev/projects/100d244e-7832-4ad4-9bbc-d08922ec8488
+## Estrutura
 
-## How can I edit this code?
-
-There are several ways of editing your application.
-
-**Use Lovable**
-
-Simply visit the [Lovable Project](https://lovable.dev/projects/100d244e-7832-4ad4-9bbc-d08922ec8488) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```
+index.html                  Landing page completa (HTML + CSS inline)
+assets/hero-alunos.webp     Imagem principal (WebP, ~71 KB)
+assets/hero-alunos.jpg      Fallback JPEG (~129 KB)
+assets/logo-colegio-nos.png Logo (topbar e rodapé)
+favicon.ico
+CNAME                       Domínio customizado do GitHub Pages
+404.html                    Redireciona para a home
+robots.txt / sitemap.xml
+.nojekyll                   Desliga o processamento Jekyll do GitHub Pages
 ```
 
-**Edit a file directly in GitHub**
+Não há build. É HTML estático puro — editar `index.html` e dar push na `main`
+publica automaticamente.
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## Formulário
 
-**Use GitHub Codespaces**
+O formulário não usa backend: ao enviar, ele monta uma mensagem e abre o
+WhatsApp (`https://wa.me/5521994753375`) com os dados preenchidos.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Rastreamento
 
-## What technologies are used for this project?
+Google Tag Manager: **GTM-5MBTFNMH**
 
-This project is built with:
+Eventos enviados para o `dataLayer` (mesmos nomes da versão anterior do site,
+para não quebrar os gatilhos já configurados no GTM):
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+| Evento           | Quando dispara                             | Dados extras |
+|------------------|--------------------------------------------|--------------|
+| `WhatsappButton` | Clique no botão "Fale conosco" do topo      | —            |
+| `AgendarVisita`  | Clique no CTA "Agendar minha visita"        | —            |
+| `WhatsappForm`   | Envio do formulário de lead                 | `nome`, `email`, `telefone`, `unidade`, `serie` |
 
-## How can I deploy this project?
+## Desenvolvimento local
 
-Simply open [Lovable](https://lovable.dev/projects/100d244e-7832-4ad4-9bbc-d08922ec8488) and click on Share -> Publish.
+```sh
+python3 -m http.server 8000
+```
 
-## Can I connect a custom domain to my Lovable project?
+E abrir <http://localhost:8000>.
 
-Yes, you can!
+## Histórico
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Antes de novembro de 2027 este repositório continha um app React/Vite gerado no
+Lovable. Ele foi substituído por esta landing page estática — o código antigo
+continua disponível no histórico do Git (commit `e6cbb73` e anteriores).
