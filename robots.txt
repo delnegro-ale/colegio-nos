@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://matriculas.colegionois.com/sitemap.xml
+Sitemap: https://matriculas.colegionos.com/sitemap.xml

@@ -1,7 +1,7 @@
 # Colégio Nós — Landing Page de Matrículas 2027
 
 Landing page estática de captação de leads, publicada via **GitHub Pages** em
-<https://matriculas.colegionois.com>.
+<https://matriculas.colegionos.com>.
 
 ## Estrutura
 
