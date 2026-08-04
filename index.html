@@ -18,6 +18,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="theme-color" content="#F47B20">
 <link rel="canonical" href="https://matriculas.colegionos.com/">
 <link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
 
 <meta property="og:type" content="website">
 <meta property="og:locale" content="pt_BR">
@@ -49,14 +50,14 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
   body{font-family:'Nunito',system-ui,-apple-system,Segoe UI,Roboto,sans-serif;color:var(--ink);background:#fff;line-height:1.55}
-  img{max-width:100%;display:block}
+  img{max-width:100%;display:block;height:auto}
   a{color:inherit;text-decoration:none}
   .wrap{max-width:1140px;margin:0 auto;padding:0 22px}
 
   /* Topbar */
   .topbar{background:var(--gray);color:#fff}
   .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 22px}
-  .topbar img{height:46px}
+  .topbar img{height:46px;width:auto}
   .top-cta{display:flex;align-items:center;gap:14px;flex-wrap:wrap;justify-content:flex-end}
   .whats{display:inline-flex;align-items:center;white-space:nowrap;gap:9px;background:#25D366;color:#fff;font-weight:800;padding:10px 18px;border-radius:40px;font-size:.95rem}
   .whats svg{width:19px;height:19px;fill:#fff}
@@ -72,7 +73,8 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
   .hero-copy h1 b{color:var(--orange)}
   .hero-copy p.lead{font-size:1.15rem;margin-top:16px;color:#5a5a5a;max-width:44ch}
   .hero-img{margin-top:26px;border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.12)}
-  .hero-img img{width:100%}
+  .hero-img picture{display:block}
+  .hero-img img{width:100%;height:auto}
 
   /* Form card */
   .form-card{position:relative;z-index:2;background:#fff;border-radius:20px;box-shadow:0 20px 50px rgba(0,0,0,.14);padding:30px 28px;border-top:7px solid var(--orange)}
@@ -135,7 +137,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
   /* Footer */
   footer{background:var(--gray);color:#dcdcdc;padding:48px 22px 30px}
-  footer img{height:56px;margin-bottom:26px}
+  footer img{height:56px;width:auto;margin-bottom:26px}
   .foot-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
   .foot-col h4{color:#fff;font-size:1.2rem;font-weight:900;margin-bottom:10px}
   .foot-col .fr{display:flex;gap:9px;align-items:flex-start;font-size:.92rem;margin-bottom:7px;color:#cfcfcf}
