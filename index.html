@@ -203,15 +203,15 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
       <form id="leadForm" novalidate>
         <div class="field">
           <label for="nome">Nome completo</label>
-          <input id="nome" name="nome" type="text" placeholder="Seu nome" required>
+          <input id="nome" name="nome" type="text" placeholder="Seu nome" autocomplete="name" minlength="3" required>
         </div>
         <div class="field">
           <label for="email">E-mail</label>
-          <input id="email" name="email" type="email" placeholder="voce@email.com" required>
+          <input id="email" name="email" type="email" placeholder="voce@email.com" autocomplete="email" required>
         </div>
         <div class="field">
           <label for="tel">WhatsApp / Telefone</label>
-          <input id="tel" name="tel" type="tel" placeholder="(21) 90000-0000" required>
+          <input id="tel" name="tel" type="tel" placeholder="(21) 90000-0000" autocomplete="tel" inputmode="tel" pattern="\D*(\d\D*){10,13}" title="Informe um telefone com DDD, ex.: (21) 99999-9999" required>
         </div>
         <div class="field">
           <label for="unidade">Unidade de interesse</label>
@@ -351,11 +351,25 @@ height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   form.addEventListener('submit',function(e){
     e.preventDefault();
     if(!form.checkValidity()){form.reportValidity();return;}
-    var nome=document.getElementById('nome').value.trim();
+    var nomeEl=document.getElementById('nome');
+    var telEl=document.getElementById('tel');
+    var nome=nomeEl.value.trim();
     var email=document.getElementById('email').value.trim();
-    var tel=document.getElementById('tel').value.trim();
+    var tel=telEl.value.trim();
     var uni=document.getElementById('unidade').value;
     var serie=document.getElementById('serie').value.trim();
+
+    // Reforco em JS: minlength/pattern nao sao aplicados pelo navegador a
+    // valores preenchidos por script (dirty value flag), entao revalidamos.
+    if(nome.length<3){
+      nomeEl.setCustomValidity('Informe seu nome completo.');
+      form.reportValidity(); nomeEl.setCustomValidity(''); return;
+    }
+    var digitos=tel.replace(/\D/g,'');
+    if(digitos.length<10||digitos.length>13){
+      telEl.setCustomValidity('Informe um telefone com DDD, ex.: (21) 99999-9999');
+      form.reportValidity(); telEl.setCustomValidity(''); return;
+    }
     var texto='Ol\u00e1! Gostaria de informa\u00e7\u00f5es.%0A'+
       '%0ANome: '+encodeURIComponent(nome)+
       '%0AE-mail: '+encodeURIComponent(email)+
