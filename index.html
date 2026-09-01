@@ -308,6 +308,7 @@ var SHEET_ENDPOINT='https://script.google.com/macros/s/AKfycbx8jTfXZ7_5GgDLkTKBy
   var form=document.getElementById('leadForm');
   var ok=document.getElementById('okMsg');
   var campos=['nome','email','tel','unidade','serie'];
+  var finalizado=false;
 
   var sessao=(function(){
     try{
@@ -330,13 +331,44 @@ var SHEET_ENDPOINT='https://script.google.com/macros/s/AKfycbx8jTfXZ7_5GgDLkTKBy
 
   function enviarPlanilha(status){
     if(!SHEET_ENDPOINT) return;
+    if(finalizado&&status!=='completo') return;
     var d=coletar();
     if(!d.nome&&!d.email&&!d.tel&&!d.unidade&&!d.serie) return;
     d.status=status;
+    var corpo=JSON.stringify(d);
+    if(status==='completo'){
+      finalizado=true;
+      try{
+        if(navigator.sendBeacon&&navigator.sendBeacon(SHEET_ENDPOINT,new Blob([corpo],{type:'text/plain;charset=utf-8'}))) return;
+      }catch(err){}
+    }
     try{
-      fetch(SHEET_ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)});
+      fetch(SHEET_ENDPOINT,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:corpo});
     }catch(err){}
   }
+
+  function registrarClique(botao){
+    if(!SHEET_ENDPOINT) return;
+    var p=new URLSearchParams(location.search);
+    var corpo=JSON.stringify({
+      tipo:'clique',
+      botao:botao,
+      pagina:location.href,
+      utm_source:p.get('utm_source')||'',
+      utm_campaign:p.get('utm_campaign')||'',
+      dispositivo:navigator.userAgent
+    });
+    try{
+      if(navigator.sendBeacon&&navigator.sendBeacon(SHEET_ENDPOINT,new Blob([corpo],{type:'text/plain;charset=utf-8'}))) return;
+    }catch(err){}
+    try{
+      fetch(SHEET_ENDPOINT,{method:'POST',mode:'no-cors',keepalive:true,headers:{'Content-Type':'text/plain;charset=utf-8'},body:corpo});
+    }catch(err){}
+  }
+
+  document.querySelectorAll('a.whats').forEach(function(a){
+    a.addEventListener('click',function(){registrarClique('Fale conosco (topo)');});
+  });
 
   campos.forEach(function(id){
     var el=document.getElementById(id);
@@ -362,7 +394,9 @@ var SHEET_ENDPOINT='https://script.google.com/macros/s/AKfycbx8jTfXZ7_5GgDLkTKBy
       (serie?('%0ASerie de interesse: '+encodeURIComponent(serie)):'');
     form.style.display='none';
     ok.style.display='block';
-    window.open('https://wa.me/5521994753375?text='+texto,'_blank');
+    setTimeout(function(){
+      window.open('https://wa.me/5521994753375?text='+texto,'_blank');
+    },700);
   });
 })();
 </script>
