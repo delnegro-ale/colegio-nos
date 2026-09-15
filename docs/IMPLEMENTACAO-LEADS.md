@@ -62,10 +62,9 @@ Não enviar nome, e-mail ou telefone pelo `dataLayer`.
 
 No Google Ads, mapear `transaction_id` para evitar duplicidade. Na Meta, configurar `event_id` no template da tag para deduplicação. O gatilho das duas tags deve ser **Evento personalizado = `lead_saved`**.
 
-Enquanto o contêiner publicado ainda escutar `WhatsappForm`, a landing page
-publica esse evento como ponte somente depois da confirmação do D1. Os cliques
-simples de WhatsApp usam `whatsapp_button_clicked`, evitando que sejam contados
-como lead pelas regras antigas.
+Os cliques simples de WhatsApp usam `whatsapp_button_clicked` e não são tratados
+como conversão. A landing page publica somente `lead_saved` depois da confirmação
+do D1.
 
 ## Recuperação
 

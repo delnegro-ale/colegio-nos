@@ -42,11 +42,9 @@ Eventos enviados para o `dataLayer`:
 |------------------|--------------------------------------------|--------------|
 | `whatsapp_button_clicked` | Clique em um CTA de WhatsApp, sem contar conversão | `link_url` |
 | `lead_saved` | D1 confirmou o formulário completo | `lead_id`, `event_id`, `transaction_id`, `unidade`, `serie` |
-| `WhatsappForm` | Ponte temporária para as tags já publicadas no GTM; dispara junto de `lead_saved` | mesmos dados não pessoais |
 
-Nome, e-mail e telefone não são enviados ao `dataLayer`. A configuração final
-do GTM deve usar exclusivamente `lead_saved` como gatilho de conversão; depois
-da publicação dessa troca, a ponte `WhatsappForm` pode ser removida.
+Nome, e-mail e telefone não são enviados ao `dataLayer`. As tags de conversão
+do GTM usam `lead_saved`, que só ocorre após o D1 confirmar o formulário completo.
 
 ## Desenvolvimento local
 

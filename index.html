@@ -459,17 +459,6 @@ Fale conosco
       unidade:data.unit,
       serie:data.grade
     });
-    // Compatibilidade temporária com o contêiner GTM publicado. As tags atuais
-    // ainda escutam WhatsappForm; o evento só ocorre após a confirmação do D1.
-    window.dataLayer.push({
-      event:'WhatsappForm',
-      lead_id:result.leadId,
-      event_id:result.conversionId,
-      transaction_id:result.conversionId,
-      lead_status:'complete',
-      unidade:data.unit,
-      serie:data.grade
-    });
   }
 
   document.querySelectorAll('a.whats,a.cta-whats').forEach(function(link){
