@@ -1,0 +1,25 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "colegio-nos-leads",
+  "main": "src/index.js",
+  "compatibility_date": "2026-09-15",
+  "compatibility_flags": ["nodejs_compat"],
+  "workers_dev": true,
+  "preview_urls": false,
+  "observability": {
+    "enabled": true
+  },
+  "vars": {
+    "ALLOWED_ORIGINS": "https://matriculas.colegionos.com,http://localhost:8000,http://127.0.0.1:8000"
+  },
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "colegio-nos-leads",
+      "database_id": "2a558e68-208e-47f5-b3b2-2f82bbccad10"
+    }
+  ],
+  "triggers": {
+    "crons": ["*/5 * * * *"]
+  }
+}

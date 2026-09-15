@@ -14,6 +14,7 @@
 No Cloudflare:
 
 - Worker: `colegio-nos-leads`
+- URL: `https://colegio-nos-leads.dnconsultoriaads.workers.dev`
 - D1: `colegio-nos-leads`
 - segredo `SHEETS_WEBHOOK_URL`: URL `/exec` do Apps Script
 - segredo `SHEETS_SYNC_SECRET`: valor aleatório igual ao Script Property `SYNC_SECRET`
@@ -26,12 +27,20 @@ No Apps Script, em **Configurações do projeto > Propriedades do script**:
 
 O script cria a aba `Leads D1`. A aba antiga, se existir, não é alterada.
 
+### Estado atual em 15/09/2026
+
+O Worker está conectado ao aplicativo da web já publicado, que atualiza a aba
+`Leads` pelo ID da sessão. Esse modo foi validado de ponta a ponta para rascunho
+e envio completo. O arquivo `apps-script/Code.gs` é a versão endurecida, com
+segredo compartilhado e uma aba separada `Leads D1`; ele deve substituir o
+script atual quando a conta de manutenção receber permissão de edição.
+
 Implante o Apps Script como aplicativo da web, executando como o proprietário e com acesso para qualquer pessoa. O segredo no corpo impede gravações sem autorização.
 
 No GitHub, em **Settings > Secrets and variables > Actions**:
 
 - `CLOUDFLARE_ACCOUNT_ID`
-- `CLOUDFLARE_API_TOKEN`, limitado a Workers Scripts (edit), D1 (edit) e Account Settings (read)
+- `CLOUDFLARE_API_TOKEN`, limitado a Workers Scripts (edit) e D1 (edit)
 
 ## Contrato do GTM
 
@@ -52,6 +61,11 @@ Evento de conversão:
 Não enviar nome, e-mail ou telefone pelo `dataLayer`.
 
 No Google Ads, mapear `transaction_id` para evitar duplicidade. Na Meta, configurar `event_id` no template da tag para deduplicação. O gatilho das duas tags deve ser **Evento personalizado = `lead_saved`**.
+
+Enquanto o contêiner publicado ainda escutar `WhatsappForm`, a landing page
+publica esse evento como ponte somente depois da confirmação do D1. Os cliques
+simples de WhatsApp usam `whatsapp_button_clicked`, evitando que sejam contados
+como lead pelas regras antigas.
 
 ## Recuperação
 

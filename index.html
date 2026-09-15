@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="lead-api-endpoint" content="https://colegio-nos-leads.REPLACE_WITH_WORKERS_SUBDOMAIN.workers.dev/api/leads">
+<meta name="lead-api-endpoint" content="https://colegio-nos-leads.dnconsultoriaads.workers.dev/api/leads">
 <!-- Google Tag Manager -->
 <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
 new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
@@ -459,11 +459,22 @@ Fale conosco
       unidade:data.unit,
       serie:data.grade
     });
+    // Compatibilidade temporária com o contêiner GTM publicado. As tags atuais
+    // ainda escutam WhatsappForm; o evento só ocorre após a confirmação do D1.
+    window.dataLayer.push({
+      event:'WhatsappForm',
+      lead_id:result.leadId,
+      event_id:result.conversionId,
+      transaction_id:result.conversionId,
+      lead_status:'complete',
+      unidade:data.unit,
+      serie:data.grade
+    });
   }
 
   document.querySelectorAll('a.whats,a.cta-whats').forEach(function(link){
     link.addEventListener('click',function(){
-      window.dataLayer.push({event:'WhatsappButton',link_url:link.href});
+      window.dataLayer.push({event:'whatsapp_button_clicked',link_url:link.href});
     });
   });
 
