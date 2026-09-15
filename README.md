@@ -7,6 +7,9 @@ Landing page estática de captação de leads, publicada via **GitHub Pages** em
 
 ```
 index.html                  Landing page completa (HTML + CSS inline)
+worker/                     API Cloudflare Worker, banco D1 e migrações
+apps-script/Code.gs         Sincronização idempotente com Google Sheets
+docs/IMPLEMENTACAO-LEADS.md Configuração e operação do fluxo de leads
 assets/hero-alunos.webp     Imagem principal (WebP, ~71 KB)
 assets/hero-alunos.jpg      Fallback JPEG (~129 KB)
 assets/logo-colegio-nos.png Logo (topbar e rodapé)
@@ -20,23 +23,28 @@ robots.txt / sitemap.xml
 Não há build. É HTML estático puro — editar `index.html` e dar push na `main`
 publica automaticamente.
 
-## Formulário
+## Formulário e persistência
 
-O formulário não usa backend: ao enviar, ele monta uma mensagem e abre o
-WhatsApp (`https://wa.me/5521994753375`) com os dados preenchidos.
+O navegador envia rascunhos e submissões completas para um Cloudflare Worker.
+O Worker grava primeiro no D1 e sincroniza a versão mais recente de cada lead
+com o Google Sheets. O WhatsApp só é aberto após a confirmação do D1.
+
+Consulte [docs/IMPLEMENTACAO-LEADS.md](docs/IMPLEMENTACAO-LEADS.md) para criar os
+recursos, configurar os segredos e publicar o Worker.
 
 ## Rastreamento
 
 Google Tag Manager: **GTM-5MBTFNMH**
 
-Eventos enviados para o `dataLayer` (mesmos nomes da versão anterior do site,
-para não quebrar os gatilhos já configurados no GTM):
+Eventos enviados para o `dataLayer`:
 
 | Evento           | Quando dispara                             | Dados extras |
 |------------------|--------------------------------------------|--------------|
-| `WhatsappButton` | Clique no botão "Fale conosco" do topo      | —            |
-| `AgendarVisita`  | Clique no CTA "Agendar minha visita"        | —            |
-| `WhatsappForm`   | Envio do formulário de lead                 | `nome`, `email`, `telefone`, `unidade`, `serie` |
+| `whatsapp_button_clicked` | Clique em um CTA de WhatsApp, sem contar conversão | `link_url` |
+| `lead_saved` | D1 confirmou o formulário completo | `lead_id`, `event_id`, `transaction_id`, `unidade`, `serie` |
+
+Nome, e-mail e telefone não são enviados ao `dataLayer`. As tags de conversão
+do GTM usam `lead_saved`, que só ocorre após o D1 confirmar o formulário completo.
 
 ## Desenvolvimento local
 
